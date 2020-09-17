@@ -1,0 +1,214 @@
+html{
+    height: 100%;
+    min-height: 100%;
+    font-family: arial,sans-serif;
+    margin:0;
+    padding:0;
+}
+
+#topbar{
+    display: grid;
+    grid-template-rows: 20px;
+    grid-template-columns: 50px 50px 1fr 50px 100px;
+    grid-template-areas: 
+    "gmail images . icon signin";
+}
+ #gmail, #images, #icon, #signin {
+    text-decoration: none;
+    color: rgba(0,0,0,0.87);
+    font-size: 13px;
+    
+}
+
+#gmail{
+    grid-area: gmail;
+    justify-self: center;
+    align-self: center;
+}
+#images{
+    grid-area: images;
+    justify-self: center;
+    align-self: center;
+}
+#icon {
+    grid-area: icon ;
+    justify-self: center;
+    align-self: center;
+}
+#signin{
+    grid-area: signin;
+    justify-self: center;
+    align-self: center;
+}
+/*
+#main-area{
+    display: grid;
+    grid-template-columns: 33% 34% 33%; 
+    grid-template-rows: 200px 100px 100px 50px 1fr;
+    justify-self: stretch;
+
+    }
+
+#main-area > img {
+        object-fit: contain;
+        width: 100%;
+        max-height: 100%
+      }
+
+#ggle-logo{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    place-self: center;
+}
+#search-div{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    place-self: center;
+    object-fit: contain;
+}
+#btn-row {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 4;
+    grid-row-end: 5;
+}
+#ggle-offr{
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 5;
+    grid-row-end: 6;
+} */
+#main-area{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#ggle-logo{
+    text-align: center;
+    margin: 10px
+    
+}
+#ggle-logo img{
+    object-fit: contain;
+    width:50%;
+}
+
+#search-div{
+  margin: auto;
+  width: 100%;
+  border: 1px solid gray;
+  padding: 10px;
+  border-radius: 40px;
+    
+}
+
+#mic{
+    float: right;
+}
+#mag{
+    float:left;
+}
+#search:focus, #search{
+    
+    border:  none !important;
+    box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    outline-offset: 0px !important;
+    outline: none !important;
+    width: 90%;
+}
+#btn-row{
+    display:grid;
+    margin:20px;
+    text-align: center;
+    grid-template-columns: 50% 50%;
+}
+#button{
+    margin:15px;
+    border-radius: 2px;
+    background-color: #f2f2f2;
+    width:auto;
+    height: 40px;
+    border:none;
+    cursor: pointer;
+}
+
+#button:hover{
+    color:hsl(0, 0%, 22%);
+    background-color: rgb(211, 211, 211);
+    border: 5px solid hsl(0, 0%, 83%);
+}
+
+#ggle-offr{
+    text-align:center;
+    margin: 20px;
+    vertical-align: bottom;
+}
+
+#footer{
+    padding:5px;
+    position: absolute;
+    bottom:0;
+    background-color: rgb(219, 216, 216);
+    width:100%;
+
+}
+
+#footer-2{
+    width:100%;
+    display: grid;
+    grid-template-rows: 20px;
+    grid-template-columns: 100px 100px 100px 120px 1fr 100px 100px 100px;
+    grid-template-areas: 
+    "ad biz abt how  . pri ter set";
+}
+
+#ad{
+    grid-area: ad;
+    align-self: center;
+    justify-self: center;
+}
+#biz{
+    grid-area: biz;
+    align-self: center;
+    justify-self: center;
+}
+#abt{
+    grid-area: abt;
+    align-self: center;
+    justify-self: center;
+}
+
+#how{
+    grid-area: how;
+    align-self: center;
+    justify-self: center;
+}
+#pri{
+    grid-area: pri;
+    align-self: center;
+    justify-self: center;
+}
+#ter{grid-area: ter;
+    align-self: center;
+    justify-self: center;
+}
+#set{
+    grid-area: set;
+    align-self: center;
+    justify-self: center;
+}
+
+#footer a{
+    color: rgb(66, 64, 64);
+    font-size: 14px;
+    text-decoration: none;
+}
+
