@@ -11,9 +11,9 @@ html{
     grid-template-rows: 20px;
     grid-template-columns: 50px 50px 1fr 50px 100px;
     grid-template-areas: 
-    "gmail images . icon signin";
+    "gmail images . icon advanced";
 }
- #gmail, #images, #icon, #signin {
+ #gmail, #images, #icon, #advanced {
     text-decoration: none;
     color: rgba(0,0,0,0.87);
     font-size: 13px;
@@ -35,8 +35,8 @@ html{
     justify-self: center;
     align-self: center;
 }
-#signin{
-    grid-area: signin;
+#advanced{
+    grid-area: advanced;
     justify-self: center;
     align-self: center;
 }
