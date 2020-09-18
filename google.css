@@ -9,7 +9,7 @@ html{
 #topbar{
     display: grid;
     grid-template-rows: 20px;
-    grid-template-columns: 50px 50px 1fr 50px 100px;
+    grid-template-columns: 50px 50px 1fr 100px 150px;
     grid-template-areas: 
     "gmail images . icon advanced";
 }
@@ -40,48 +40,7 @@ html{
     justify-self: center;
     align-self: center;
 }
-/*
-#main-area{
-    display: grid;
-    grid-template-columns: 33% 34% 33%; 
-    grid-template-rows: 200px 100px 100px 50px 1fr;
-    justify-self: stretch;
 
-    }
-
-#main-area > img {
-        object-fit: contain;
-        width: 100%;
-        max-height: 100%
-      }
-
-#ggle-logo{
-    grid-column-start: 2;
-    grid-column-end: 3;
-    grid-row-start: 2;
-    grid-row-end: 3;
-    place-self: center;
-}
-#search-div{
-    grid-column-start: 2;
-    grid-column-end: 3;
-    grid-row-start: 3;
-    grid-row-end: 4;
-    place-self: center;
-    object-fit: contain;
-}
-#btn-row {
-    grid-column-start: 2;
-    grid-column-end: 3;
-    grid-row-start: 4;
-    grid-row-end: 5;
-}
-#ggle-offr{
-    grid-column-start: 2;
-    grid-column-end: 3;
-    grid-row-start: 5;
-    grid-row-end: 6;
-} */
 #main-area{
     position: fixed;
     top: 50%;

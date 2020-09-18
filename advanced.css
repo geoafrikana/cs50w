@@ -3,7 +3,7 @@ body{
 }
 #top-bar{
     display: grid;
-    grid-template-columns: 100px 1fr 50px 100px ;
+    grid-template-columns: 100px 1fr 100px 100px ;
     grid-template-areas: "logo . home image-search";
     margin:5px;
     padding:0
@@ -90,54 +90,3 @@ h2{
     height: 30px;
     width: 150px;
 }
-
-/*
-
-.input-text{
-    float: left;
-    display: inline-block;
-    min-width: 167px;
-    width: 16%;
-    height: 42px;
-    color: #222;
-    font-size: 13px;
-    line-height: 16px;
-    vertical-align: middle;
-}
-
-.input{
-    float: left;
-    display: inline-block;
-    min-width: 167px;
-    min-height: 41px;
-    vertical-align: middle;
-    width: 50%;
-}
- #top-bar{
-    padding: 5px;
-    margin-bottom: 10px;
-    width: 100%;
-}
-
-#logo{
-    text-align: left;
-    width: 50%;
-    
-}
-
-img{
-    width: 92px;
-}
-
-#links{
-    text-align: right;
-    width:50%; 
-}
-
-#home, #image-search{
-    margin: 5px;
-}
-
-h2{
-    margin-top: 20px;
-} */
