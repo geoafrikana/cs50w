@@ -13,6 +13,7 @@ html{
     grid-template-areas: 
     "gmail images . icon advanced-search";
 }
+
  #gmail, #images, #icon, #advanced-search {
     text-decoration: none;
     color: rgba(0,0,0,0.87);
@@ -25,6 +26,7 @@ html{
     justify-self: center;
     align-self: center;
 }
+
 #images{
     grid-area: images;
     justify-self: center;
