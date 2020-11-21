@@ -1,0 +1,65 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    New post
+{% endblock %}
+
+<!-- 
+{% block cssstyle %}
+    input[type=text], textarea{
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-top: 6px;
+        margin-bottom: 16px;
+        resize: vertical
+    }
+
+    input[type=submit]{
+        background-color:#4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type=submit]:hover{
+        background-color: #45a049;
+    }
+
+    #container{
+        border-radius:5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+    }
+
+{% endblock %} -->
+
+
+{% block body %}
+
+<div style='text-align:center; margin-bottom:50px;'><h1>New Post</h1>
+    <br>
+    <h3 style='color:red'>{{message}}</h3></div>
+
+
+   <div class='form-group' style="width:50%; margin:auto; border-radius:5px; background-color: #f2f2f2; padding: 20px;">
+       <form action="{% url 'newpage' %}" method='POST'>
+           {% csrf_token %}
+           <label for='post_title'>Post title</label>
+           <input type="text" id='post_title' name="post_title" placeholder="Post title" class='form-control'>
+           <label for='post_content'>Post content</label>
+           <textarea rows=10 cols=20 id='post_content' name='post_content' placeholder='Enter your markdown content' class='form-control'></textarea>
+           <div style='padding:10px'><input style="color:white; background-color:#4CAF50; border-radius: 2px; border-color:#246126; width:100%" type='submit' value='Submit' class='form-control'></div>
+       </form>
+   </div>
+    <!-- <form action="." method='POST'>
+        {% csrf_token %}
+        <input class="" type="text" name="post_title" placeholder="Post title">
+        <textarea name='post_content' rows='4' cols='10'></textarea>
+        <input class="" type="submit" name="submit" placeholder="Post title">
+    </form> -->
+{% endblock %}
