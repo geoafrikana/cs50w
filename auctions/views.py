@@ -5,11 +5,13 @@ from django.shortcuts import render
 from django.urls import reverse
 from . import methods
 
-from .models import User
+
+from .models import User, Listing
 
 
 def index(request):
-    return render(request, "auctions/index.html")
+    products = Listing.objects.all()
+    return render(request, "auctions/index.html", {"products":products})
 
 
 def login_view(request):
