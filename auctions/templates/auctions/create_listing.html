@@ -3,22 +3,34 @@
 
 
 {% block body %}
-<div style='text-align:center; margin-bottom:50px;'><h1>Create Listing</h1>
-    <br>
-    <h3 style='color:red'>{{message}}</h3></div>
+<div style='text-align:center; margin-bottom:5px;'>
+    <h2>Create Listing</h2>
+    <p style='color:rgb(235, 143, 6)'>{{message}}</p>
+</div>
 
 
-   <div class='form-group' style="width:50%; margin:auto; border-radius:5px; background-color: #f2f2f2; padding: 20px;">
-       <form action="{% url 'create_listing' %}" method='POST'>
-           {% csrf_token %}
-           <label for='listing_title'>Listing title</label>
-           <input type="text" id='listing_title' name="listing_title" placeholder="Title here" class='form-control'>
-           <label for='listing_description'>Listing description</label>
-           <textarea rows=10 cols=20 id='listing_description' name='listing_description' placeholder='Type the listing description here' class='form-control'></textarea>
-           <div style='padding:10px'><input style="color:white; background-color:#4CAF50; border-radius: 2px; border-color:#246126; width:100%" type='submit' value='Submit' class='form-control'>
+<div class='form-group' style="width:50%; margin-left:auto; margin-right:auto; margin-bottom: 10px; border-radius:5px; background-color: #f2f2f2; padding: 5px;">
+    <form action="{% url 'create_listing' %}" method='POST'>
+        {% csrf_token %}
+        <input type='hidden' id='user' name='user' value='{{user.id}}'>
+        <label for='listing_title'>Listing title</label>
+        <input type="text" id='listing_title' name="listing_title" placeholder="Title here" class='form-control' required>
+        <label for="bid_start">Starting bid:</label>
+        <input type="number" id="bid_start" name="bid_start" class='form-control' required>
+        <label for="image_url">Image URL:</label>
+        <input type="url" id="image_url" name="image_url" class='form-control' >
+        <label for='listing_category'>Listing category</label>
+        <input type="text" id='listing_category' name="listing_category" placeholder="Category here" class='form-control'>
+        
+        <label for='listing_description='>Listing description</label>
+        <textarea rows=5 cols=10 id='listing_description' name='listing_description'
+            placeholder='Type the listing description here' class='form-control' required></textarea>
+        <div style='padding:10px'><input
+                style="color:white; background-color:#204c86; border-radius: 2px; border-color:#246126; width:100%"
+                type='submit' value='Submit' class='form-control' >
         </div>
-       </form>
-   </div>    
+    </form>
+</div>
 
 
 {% endblock %}

@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from . import methods
 
 from .models import User
 
@@ -65,6 +66,13 @@ def register(request):
 
 def create_listing(request):
     if request.method == 'POST':
-        return render(request, "auctions/create_listing.html", {"message" : 'form filled'})
+        listing_title = request.POST["listing_title"]
+        bid_start = request.POST["bid_start"]
+        image_url = request.POST["image_url"]
+        listing_category = request.POST["listing_category"]
+        listing_description = request.POST["listing_description"]
+        bidder = request.POST["user"]
+        methods.save_listing(listing_title,bid_start,image_url,listing_category,listing_description,User.objects.filter(pk=bidder).first())
+        return render(request, "auctions/create_listing.html", {"message" : 'saved successfully'})
         
-    return render(request, "auctions/create_listing.html", {"message" : 'fill the form'})
+    return render(request, "auctions/create_listing.html", {"message" : ''})
