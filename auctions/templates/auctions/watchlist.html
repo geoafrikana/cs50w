@@ -1,0 +1,26 @@
+{% extends "auctions/layout.html" %}
+{% block title %}Watch List{% endblock %}
+
+{% block body %}
+        <div class='container-fluid mt-4  p-3'>
+             <div class='row justify-content-around'>
+                {% for watcheditem in watched_items %}
+                <div class='col-lg-3 boarder p-3'>
+            <div class=''>
+            <img src="{{watcheditem.image_url}}" class="img-responsive" alt="..." style="object-fit:contain; width:100%; height:200px;">
+            </div>
+            <div class='text-center' >
+                <p class="font-weight-bold m-2">{{watcheditem.title|title}}</p>
+                <p>${{watcheditem.price}}</p>
+                <a href="{% url 'view_listing' watcheditem.id  %}"><button type="button" class="btn-lg-3 btn-info">Info</button></a>
+    
+            </div>
+            
+        </div>
+        {% endfor%}
+        </div>
+        
+        </div>
+        
+        
+{% endblock %}

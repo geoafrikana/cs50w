@@ -1,9 +1,10 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from datetime import datetime
 
 
 class User(AbstractUser):
-    pass
+    watchlist = models.ManyToManyField('Listing')
 
 class Listing(models.Model):
     title = models.CharField(max_length=150)
@@ -12,6 +13,8 @@ class Listing(models.Model):
     image_url = models.URLField(max_length = 200)
     category = models.CharField(max_length=100)
     seller =  models.ForeignKey(User, on_delete = models.CASCADE, related_name='mylisting')
+    time_posted = models.DateTimeField(default=datetime.now())
+    status= models.BooleanField(default=True)
 
 
     def __str__(self):

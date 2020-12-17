@@ -1,0 +1,17 @@
+{% extends "auctions/layout.html" %}
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+        <div class='container-fluid mt-4  p-3'>
+              <ul>
+                {% for individual_cat in listings %}
+                
+                  <li><a href="{% url 'individual_cat' individual_cat %}">{{individual_cat}}</a></li>
+                  
+                  {% endfor%}
+              </ul>
+        
+        </div>
+        
+        
+{% endblock %}

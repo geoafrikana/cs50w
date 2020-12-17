@@ -1,5 +1,5 @@
 {% extends "auctions/layout.html" %}
-{% block title %}Auction{% endblock %}
+{% block title %}{{ category }}{% endblock %}
 
 {% block body %}
         <div class='container-fluid mt-4  p-3'>
@@ -12,7 +12,6 @@
             <div class='text-center' >
                 <p class="font-weight-bold m-2">{{product.title|title}}</p>
                 <p>${{product.price}}</p>
-                <p>{{product.description}}</p>
                 <a href="{% url 'view_listing' product.id  %}"><button type="button" class="btn-lg-3 btn-info">Info</button></a>
     
             </div>
