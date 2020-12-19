@@ -1,6 +1,6 @@
 from django.test import TestCase
 
 # Create your tests here.
-#username: newnas
+#username: admin
 #password:123
-#email: new@nas.com
+#email: admin@django.com

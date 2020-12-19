@@ -5,33 +5,37 @@
 
 <div class='container p-3'>
     <div class="row justify-content-center">
-        <div class='col-6 border'><img style='margin:20px; width:90%' src="{{product.image_url}}" ></div>
+        <div class='col-6 border'><img style='margin:20px; width:90%' src="{{product.image_url}}"></div>
         <div class='col-6'>
-            <div class='d-inline'><h2 class="pt-2">{{ product.title|title}}</h2>
-                 {% if user.is_authenticated %}
-                 
+            <div class='d-inline'>
+                <h2 class="pt-2">{{ product.title|title}}</h2>
+                {% if user.is_authenticated %}
+                {% if product.status == False %}
+                <p>Closed</p>
+                {% else %}
                 <div class='col-lg-3 d-inline'' >
                     <form action="{% url 'view_listing' product.pk %}" method='post'>
-                        {% csrf_token %}
-                        <input type='hidden' name= 'product' value="{{ product.id }}">
-                        <input type='hidden' name= 'user' value="{{ user.username }}">
-                        {% if list_creator|stringformat:"s" == user.username|stringformat:"s" %}
-                        <input type='submit' name='close' value="Close" class='btn btn-sm btn-outline-dark'>         
-                        {% elif exists %}
-                        <input type='submit' name='watch' value="Unwatch" class='btn btn-sm btn-outline-dark'>
-                        {% else %}
-                        <input type='submit' name='watch' value="Watch" class='btn btn-sm btn-outline-dark'>
-                        {% endif %}
+                    {% csrf_token %}
+                    <input type='hidden' name='product' value="{{ product.id }}">
+                    <input type='hidden' name='user' value="{{ user.username }}">
+                    {% if list_creator|stringformat:"s" == user.username|stringformat:"s" %}
+                    <input type='submit' name='close' value="Close" class='btn btn-sm btn-outline-dark'>
+                    {% elif user in list_of_watchers %}
+                    <input type='submit' name='watch' value="Unwatch" class='btn btn-sm btn-outline-dark'>
+                    {% else %}
+                    <input type='submit' name='watch' value="Watch" class='btn btn-sm btn-outline-dark'>
+
+                    {% endif %}
                     </form>
                 </div>
-                
+                {% endif %}
                 {% endif %}
 
                 <ul class='list-inline small text-muted'>
-                    <li class="list-inline-item" >&bull; Listed by {{ product.seller|title}}</li>
-                    <li class="list-inline-item" >&bull; Category: {{ product.category|title}}</li>
+                    <li class="list-inline-item">&bull; Listed by {{ product.seller|title}}</li>
+                    <li class="list-inline-item">&bull; Category: {{ product.category|title}}</li>
                 </ul>
-                <p><strong>${{ product.price}}</strong></p>
+                <p><strong>${{ cost}}</strong></p>
                 {% if product.description %}
                 <p>{{ product.description|title}}</p>
                 {% else %}
@@ -40,70 +44,71 @@
 
             </div>
             <br>
+            <!-- creating bid creation section -->
             <div class='container-fluid mx-0 p-0'>
-                {% if user.is_authenticated %}
-                {% if product.status == False %}
-                <p>Closed</p>
-                {% if highest.bidder|stringformat:"s" == user.username|stringformat:"s" %}
-                <p>You have won this deal</p>
-
-                {% endif %}
-
-                {% else %}
+                {% if user.is_authenticated  and list_creator|stringformat:"s" != user.username|stringformat:"s" %}
+                {% if highest_bidder == user.id and product.status != True %}
+                <p class='text-success' > You have won this deal</p>
+                {% elif product.status == True %}
                 <form action="{% url 'view_listing' product.pk %}" method='post'>
                     {% csrf_token%}
                     <div class='row justify-content-around'>
-                        <input type='hidden' name= 'product' value="{{ product.id }}">
-                        <input type='hidden' name= 'user' value="{{ user.username }}">
+                        <input type='hidden' name='product' value="{{ product.id }}">
+                        <input type='hidden' name='user' value="{{ user.username }}">
                         {% if message %}
-                        <p><i>{{message}}</i></p>
+                        <p class='text-warning'><i>{{message}}</i></p>
                         {% endif %}
                         <div class='col-lg-9'><input type="text" style='width:100%;' name="bid">
                             <input class='btn btn-primary' style='width:100%; margin-top:5px;' type="submit" value="Place Bid" name="place_bid">
+                        </div>
                         </form>
-                    {% endif %}
-                    {% endif %}
-                    </div>
-                        
-                    </div>
 
-                       
-
-                    </div>
-
-
-                </div>
-
+                {% endif %}
+                {% endif %}
             </div>
-            
-            
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-6 p-2 border m-3">
-                
-                <h3>Comments</h3>
-                <ul>
-                    {% for comment in comments %}
-                    <li>{{comment.comment_text}} - <strong>{{comment.commenter}}</strong></li>
-                    {% endfor %}
-                </ul>
-                <br>
-                <form action="{% url 'view_listing' product.pk %}" method='post'>
-                    {% csrf_token %}
-                    <textarea style="width:100%" id="comment" name="comment" rows="4" cols="45" placeholder="Type your comment here:"></textarea>
-                    
-                        <input type='hidden' name= 'product' value="{{ product.id }}">
-                        <input type='hidden' name= 'user' value="{{ user.id }}">
-                    <br>
-                    <input type="submit" name="submit_comment" style="width:100%">
-                </form>
-
-            </div>
-            
 
         </div>
+
+
 
     </div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+<!-- creating comment section -->
+<div class="row justify-content-center">
+    <div class="col-6 p-2 border m-3">
+
+        <h3>Comments</h3>
+        <ul>
+            {% for comment in comments %}
+            <li>{{comment.comment_text}} - <strong>{{comment.commenter}}</strong></li>
+            {% endfor %}
+        </ul>
+        <br>
+        <form action="{% url 'view_listing' product.pk %}" method='post'>
+            {% csrf_token %}
+            <textarea style="width:100%" id="comment" name="comment" rows="4" cols="45"
+                placeholder="Type your comment here:"></textarea>
+
+            <input type='hidden' name='product' value="{{ product.id }}">
+            <input type='hidden' name='user' value="{{ user.id }}">
+            <br>
+            <input type="submit" name="submit_comment" style="width:100%">
+        </form>
+
+    </div>
+
+
+</div>
+
+</div>
 
 
 {% endblock %}

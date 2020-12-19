@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from . import methods
-from .models import *
+from .models import User, Listing, Bid, Comment_on_listing
 
 
 def index(request):
@@ -87,15 +87,35 @@ def view_listing(request, listing_id):
     product= Listing.objects.get(pk=listing_id)
     comments = Comment_on_listing.objects.filter(listing=product)
     list_creator= str(product.seller)
-    bid = Bid.objects.get(listing=product)
-    highest_bidder = bid.bidder
-    print(highest_bidder)
+    cost = Bid.objects.get(listing_id=listing_id).amount
+    bidder = Bid.objects.get(listing_id=listing_id).bidder_id
+    print(bidder)
+    #bid = Bid.objects.get(listing=product)
+    #highest_bidder = bid.bidder
+
+    #check if product is still availabale (i.e. not closed)
+    if product.status == True:
+        exists = True
+    else:
+        exists = False    
+    # create a list of users wacthing the product
+    list_of_watchers = product.watchers.all()
+
+    #check for highest bidder 
+    #present bidder is also the highest bidder
+    product_bidding = Bid.objects.get(listing_id=listing_id)
+    bidder_id = product_bidding.bidder_id
+
+    highest_bidder = User.objects.get(id=bidder_id).id
+    print (highest_bidder)
+
     if request.method == "POST" and 'watch' in request.POST:
         product_id = request.POST["product"]
         user = request.POST["user"]
         watchaction = request.POST["watch"]
         product = Listing.objects.get(pk=product_id)
         user = User.objects.get(username=user)
+        
         if watchaction == 'Watch':
             user.watchlist.add(product)
             exists=True
@@ -103,34 +123,52 @@ def view_listing(request, listing_id):
             user.watchlist.remove(product)
             exists=False
         if product:
-            return render(request, 'auctions/view_listing.html', {'product': product, 'comments':comments, 'exists':exists, 'list_creator':list_creator})
+            return render(request, 'auctions/view_listing.html', {'cost': cost, 'bidder':bidder, 'product': product, 'comments':comments, 'exists':exists, 'list_creator':list_creator, 'list_of_watchers':list_of_watchers})
    
     if request.method == "POST" and 'place_bid' in request.POST:
         product_id = request.POST["product"]
         user = request.POST["user"]
-        newbid = int(request.POST["bid"])
+        try:
+            newbid = int(request.POST["bid"])
+            product = Listing.objects.get(id=product_id)
+            newbidder_id = User.objects.get(username=user).id
+            if newbid > cost:
+                #update bid
+                bid = Bid.objects.get(listing_id=product_id)
+                bid.amount= newbid
+                bid.bidder_id = newbidder_id
+                bid.save()
+                cost=newbid
+                message='your bid is the current bid'
+                # update Listing.price to reflect  new bid
+                listing = Listing.objects.get(id=product_id)
+                listing.price = newbid
+                listing.save()
+                print(listing.price)
+            else:
+                message = 'Your bid must be greater than the existing bid'
 
-        product = Listing.objects.get(id=product_id)
-        bidder = User.objects.get(username= user)
-        oldbid = int(Bid.objects.get(listing=product).amount)
+        except:
+            newbid= cost
+            message = 'Please enter a whole number'
 
-        if oldbid >= newbid:
-            message = f'Your bid must be greater than the existing bid'
-            return render(request, 'auctions/view_listing.html', {'product': product, 'comments':comments, 'message':message, 'list_creator':list_creator, 'highest_bidder':highest_bidder})
-        else:
-            bidobj = Bid.objects.get(listing=product)
-            bidobj.amount = newbid
-            bidobj.bidder = bidder
-            product.price= bidobj.amount
-            product.save()
-            message = 'Your bid is the current bid'
-            return render(request, 'auctions/view_listing.html', {'product': product, 'comments':comments, 'message':message, 'newbid':newbid, 'highest_bidder':highest_bidder})
+        return render(request, 'auctions/view_listing.html', {'cost': cost, 'bidder':bidder, 'product': product, 'comments':comments, 'message':message, 'list_creator':list_creator,'exists':exists, 'list_of_watchers':list_of_watchers})
+        # else:
+        #     bidobj = Bid.objects.get(listing=product)
+        #     bidobj.amount = newbid
+        #     bidobj.bidder = bidder
+        #     product.price= bidobj.amount
+        #     product.save()
+        #     message = 'Your bid is the current bid'
+        #     return render(request, 'auctions/view_listing.html', {'cost': cost, 'bidder':bidder, 'exists':exists, 'product': product, 'comments':comments, 'message':message, 'newbid':newbid, 'highest_bidder':highest_bidder, 'list_of_watchers':list_of_watchers})
 
     if request.method == "POST" and 'close' in request.POST:
         product_id = request.POST["product"]
         product=Listing.objects.get(pk=product_id)
         product.status = False
         product.save()
+        
+        
 
     if request.method == "POST" and 'submit_comment' in request.POST:
         comment_text= request.POST['comment']
@@ -143,7 +181,7 @@ def view_listing(request, listing_id):
         
 
     if product:
-        return render(request, 'auctions/view_listing.html', {'product': product, 'comments':comments, 'list_creator':list_creator, 'highest_bidder':highest_bidder})
+        return render(request, 'auctions/view_listing.html', {'cost': cost, 'bidder':bidder, 'product': product, 'comments':comments, 'list_creator':list_creator, 'highest_bidder':highest_bidder, 'exists':exists, 'list_of_watchers':list_of_watchers})
 
 
 
@@ -154,7 +192,7 @@ def watchlist(request, username):
 
 
 def categories(request):
-    listings  = Listing.objects.values_list('category', flat=True).order_by()
+    listings  = Listing.objects.values_list('category', flat=True).distinct()
     listings = [i for i in listings if i]
     for listing in listings:
         print(type(listing))
