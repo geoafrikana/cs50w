@@ -1,0 +1,85 @@
+{% extends "network/layout.html" %} {% block variable %}
+<script>
+  const viewed_name = "{{requested_profile.username}}";
+</script>
+{% endblock %} {% block body %}
+<div class="container">
+  <div class="row d-flex justify-content-center mt-3">
+    <div class="col-12 p-3 border border-secondary">
+      <p class="h4">
+        You are viewing {{requested_profile.username | upper}}'s profile
+      </p>
+      <p>Following {{ following_count }} people</p>
+      <p>Followed by <span id='followed-by'>{{ follower_count }}</span> people</p>
+      {% if is_loggedin_user %}
+      <form method="PUT">
+        <input id="profile_id" type="hidden" value="{{requested_profile.id}}" />
+        {% if is_following %}
+        <input
+          type="button"
+          id="follow_button"
+          class="btn bg-primary text-light"
+          value="Unfollow"
+        />
+        {% else %}
+        <input
+          type="button"
+          id="follow_button"
+          class="btn bg-primary text-light"
+          value="Follow"
+        />
+        {% endif %}
+      </form>
+      {% endif %}
+    </div>
+  </div>
+  {% for post in user_posts %}
+  <div class="row d-flex justify-content-center mt-3">
+    <div class="col-12 p-3 border border-secondary" id='a{{post.id}}'>
+      <div class="d-flex flex-row justify-content-between">
+        <div class="p-2">
+          <a href="{% url 'profile_page' post.poster %}"><p class="font-weight-bold text-primary h4">{{post.poster}}</p></a>
+        </div>
+        <div class="p-2"><p class="text-muted">{{post.date_time}}</p></div>
+      </div>
+
+      <p class="lead" id='content{{post.id}}'>{{post.content}}</p>
+
+      <div class="d-flex flex-row justify-content-between">
+        <div class="p-2">
+          <p class="text-danger" id="likes-count{{post.id}}">{{ post.liker.all.count }} likes</p>
+        </div>
+        {% if user.id == post.poster.id %}
+        <div class="p-2"><button data-edit="{{post.id}}" class='btn bg-warning btn-sm'>Edit</button></div>
+        {% endif %}
+        <br>
+        <button data-like="{{post.id}}" class='btn bg-success like-bt'>Like</button>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <nav aria-label="posts navigation">
+    <ul class="pagination justify-content-center">
+      {% if not hasprevious %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#">Previous</a>
+        {% else %}
+
+      <li class="page-item">
+        <a class="page-link" href="?page={{previouspage}}">Previous</a>
+        {% endif %}
+        
+      </li>
+      {% if hasnext %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{nextpage}}">Next</a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#">Next</a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+{% endblock %}

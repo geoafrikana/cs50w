@@ -1,0 +1,24 @@
+{% extends "network/layout.html" %}
+{% block body %}
+<div class="container">
+<div class="row d-flex justify-content-center mt-3">
+    <div class="col-12 p-3 border border-secondary">
+        <form method="POST">
+            {% csrf_token %}
+            <textarea
+              name="content"
+              id="content"
+              type="textarea"
+              class="form-control mb-3"
+              rows="3"
+            >{{post_content}}</textarea>
+            <input
+              type="submit"
+              value="POST"
+              class="form-control bg-primary text-light"
+            />
+          </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
