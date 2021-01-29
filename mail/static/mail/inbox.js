@@ -25,8 +25,9 @@ function gotocompose(mail_id){
 .then(email => {
  
     document.querySelector('#compose-recipients').value = email.sender
-    var res = email.subject.slice(0, 4);
-  if ("RE: "  == res){
+    var res = email.subject.slice(0, 3);
+    console.log(res)
+  if ("Re:"  == res){
     document.querySelector('#compose-subject').value = email.subject
   }else{
     document.querySelector('#compose-subject').value = `Re: ${email.subject}`
